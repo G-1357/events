@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount', #интеграция с социальными сетями
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -109,9 +108,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 ACCOUNT_SIGNUP_FORM_CLASS = 'web.forms.CustomSignupFormDif'
-ACCOUNT_EMAIL_REQUIRED = True  #mail
+ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_ADAPTER = 'web.forms.CustomSignupFormDif'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
