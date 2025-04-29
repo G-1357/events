@@ -1,0 +1,65 @@
+{% extends 'events/base.html' %}
+{% block title %}Профиль{% endblock %}
+{% block content %}
+<div class="profile-container">
+    {# Проверка аутентификации через переменную из контекста #}
+    {% if is_authenticated %}
+        <div class="profile-header">
+            <h2>Добро пожаловать, {{ user.name|default:user_info.name }}!</h2>
+            <p>Имя: {{ user.name|default:user_info.name }}</p>
+            <p>Фамилия: {{ user.surname|default:user_info.surname }}</p>
+            <p>Группа: {{ user.groupName|default:user_info.groupName }}</p>
+        </div>
+
+    {# Вывод системных сообщений #}
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="events-section">
+        <div class="section-header">
+            <h3>Мои мероприятия</h3>
+            <a href="{% url 'create_event' %}" class="btn btn-primary btn-create">
+                <i class="fas fa-plus"></i> Создать мероприятие
+            </a>
+        </div>
+
+        {% if events %}
+        <div class="events-list">
+            {% for event in events %}
+            <div class="event-card card">
+                <div class="card-header">
+                    <h4 class="event-title">{{ event.title }}</h4>
+                    <span class="event-date badge badge-secondary">
+                        <i class="far fa-calendar-alt"></i>
+                        {{ event.eventDate|date:"d.m.Y H:i" }}
+                    </span>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-events alert alert-info">
+        <i class="fas fa-info-circle"></i> У вас пока нет мероприятий.
+    </div>
+    {% endif %}
+</div>
+    {% else %}
+    <div class="not-authorized alert alert-warning">
+        <i class="fas fa-exclamation-triangle"></i>
+        Вы не авторизованы. Пожалуйста, <a href="{% url 'enter' %}">войдите</a> в систему.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

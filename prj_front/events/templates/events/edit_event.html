@@ -1,0 +1,15 @@
+{% extends 'events/base.html' %}
+{% block title %}Редактирование мероприятия{% endblock %}
+{% block content %}
+<h2>Редактировать мероприятие</h2>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="title" value="{{ event.title }}" required><br>
+    <textarea name="description" required>{{ event.description }}</textarea><br>
+    <input type="datetime-local" name="date" value="{{ event.eventDate|slice:":16" }}" required><br>
+    <input type="text" name="location" value="{{ event.location }}" required><br>
+    <input type="number" name="limit" value="{{ event.participantLimit }}" required><br>
+    <label><input type="checkbox" name="moderation" {% if event.requestModeration %}checked{% endif %}> Модерация заявок</label><br>
+    <button type="submit">Сохранить</button>
+</form>
+{% endblock %}
